@@ -1,0 +1,6 @@
+[package]
+name = "n64rust"
+version = "0.1.0"
+authors = ["Subu <subu@cliqz.com>"]
+
+[dependencies]
