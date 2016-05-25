@@ -1,7 +1,7 @@
+use super::interconnect;
 
 const NUM_GPR:usize = 32;
 
-#[derive(Default, Debug)]
 pub struct Cpu {
 	reg_gpr: [u64; NUM_GPR],
 	reg_fpr: [f64; NUM_GPR],
@@ -15,17 +15,40 @@ pub struct Cpu {
 
 	reg_fcr0: u32,
 	reg_fcr31: u32,
-	cp0: Cp0
+	cp0: Cp0,
+	interconnect: interconnect::InterConnect
 }
 
 impl Cpu {
+	pub fn new(interconnect: interconnect::InterConnect) -> Cpu {
+	  Cpu {
+			reg_gpr: [0; NUM_GPR],
+			reg_fpr: [0.0; NUM_GPR],
+
+			reg_pc: 0,
+
+			reg_hi: 0,
+			reg_lo: 0,
+
+			reg_llbit: false, //TODO: Enum ?
+
+			reg_fcr0: 0,
+			reg_fcr31: 0,
+
+			cp0: Cp0::default(),
+			interconnect: interconnect
+		}
+	}
 
 	pub fn power_on_reset(&mut self) {
 		self.cp0.power_on_reset();
 	}
+
+	pub fn run(&mut self) {
+
+	}
 }
 
-#[derive(Debug)]
 enum RegConfigEp {
 	D,
 	DxxDxx,
@@ -38,7 +61,6 @@ impl Default for RegConfigEp {
 	}
 }
 
-#[derive(Debug)]
 enum RegConfigBe {
 	LittteEndian,
 	BigEndian
@@ -51,7 +73,7 @@ impl Default for RegConfigBe {
 }
 
 
-#[derive(Default, Debug)]
+#[derive(Default)]
 struct RegConfig {
 	reg_config_ep: RegConfigEp,
 	reg_config_be: RegConfigBe
@@ -64,7 +86,7 @@ impl RegConfig {
 	}
 }
 
-#[derive(Default, Debug)]
+#[derive(Default)]
 struct Cp0 {
 	reg_config: RegConfig
 }
