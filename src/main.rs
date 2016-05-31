@@ -17,8 +17,9 @@ fn main() {
 
     let mut n64 = n64::N64::new(pif);
     n64.power_on_reset();
-    n64.run();
-    println!("Hello");
+	println!(" State before : {:#?}", n64);
+    n64.run_instruction();
+	println!(" State after : {:#?}", n64);
 }
 
 
